@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter.ttk import *
 from random import randint
 
 class App(Tk):
@@ -14,16 +13,20 @@ class App(Tk):
         padding = {'padx' : 2, 'pady' : 2}
         textWidth = 2
         textHeight = 2
-        a_1 = Label(text="A", width=2, height=2).grid(row=0, column=0, **padding)
-        a_2 = Label(text="A", width=2, height=2).grid(row=0, column=1, **padding)
-        a_3 = Label(text="A", width=2, height=2).grid(row=0, column=2, **padding)
-        a_4 = Label(text="A", width=2, height=2).grid(row=0, column=3, **padding)
-        a_5 = Label(text="A", width=2, height=2).grid(row=0, column=4, **padding)
-        b_1 = Label(text="A", width=2, height=2).grid(row=1, column=0, **padding)
-        b_2 = Label(text="A", width=2, height=2).grid(row=1, column=1, **padding)
-        b_3 = Label(text="A", width=2, height=2).grid(row=1, column=2, **padding)
-        b_4 = Label(text="A", width=2, height=2).grid(row=1, column=3, **padding)
-        b_5 = Label(text="A", width=2, height=2).grid(row=1, column=4, **padding)
+        textFont = ("Microsoft Sans Serif", 23, "bold")
+
+        main_frame = Frame()
+        main_frame.pack(anchor='center', padx=5, pady=5)
+        main_frame.configure(background="#121213")
+
+        labels = [[0 for j in range(5)] for i in range(5)]
+
+        for i in range(len(labels)):
+            for j in range(len(labels[i])):
+                labels[i][j] = Frame(main_frame, height=62, width=62)
+                labels[i][j].pack_propagate(0)
+                labels[i][j].grid(row=i, column=j, **padding)
+                Label(labels[i][j], text=f"{i + j}", font=textFont, background='#3A3A3C', foreground='#FFFFFF', borderwidth=0, width=4, height=2).pack(fill=BOTH, expand=1)
 
     def wordle(self, guess):
         with open('sgb-words.txt', 'r') as words:
