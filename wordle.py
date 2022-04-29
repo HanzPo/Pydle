@@ -19,7 +19,7 @@ class App(Tk):
         main_frame.pack(anchor='center', padx=5, pady=5)
         main_frame.configure(background="#121213")
 
-        labels = [[0 for j in range(5)] for i in range(5)]
+        labels = [[0 for j in range(5)] for i in range(6)]
 
         for i in range(len(labels)):
             for j in range(len(labels[i])):
