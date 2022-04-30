@@ -60,8 +60,11 @@ class App(Tk):
                 self.labels[i][j].config(text=f"{self.characters[i][j]}")
 
     def open_popup(self, invalid_word):
-        top= Toplevel(self)
-        Label(top, text= f"{invalid_word} is not a word!").pack()
+        textFont = ("Microsoft Sans Serif", 16)
+        popup = Toplevel(self, background="#121213")
+        popup.attributes('-toolwindow', True)
+        Label(popup, text= f"{invalid_word} is not in the wordlist", font=textFont, background="#121213", foreground='#FFFFFF').pack(padx=5, pady=5)
+
 
 
 
