@@ -48,6 +48,12 @@ class App(Tk):
             elif (self.character_number == 5 and event.keysym == 'Return'):
                 current_word = ''.join(self.characters[self.guess_number]).lower()
                 if (current_word in wordlist):
+                    for i in range(len(current_word)):
+                        if current_word[i] == active_word[i]:
+                            self.labels[self.guess_number][i].config(background='#538d4e')
+                        elif (current_word[i] in active_word):
+                            self.labels[self.guess_number][i].config(background='#b59f3b')
+
                     self.guess_number += 1
                     self.character_number = 0
                 else:
