@@ -5,14 +5,18 @@ class App(Tk):
     def __init__(self):
         super().__init__()
         self.title("Wordle")
-        self.configure(background="#121213")
-        self.makewidgets()
         self.resizable(width=False, height=False)
-        
+        self.configure(background="#121213")
+        self.guess_number = 0
+        self.characters = [[' ' for j in range(5)] for i in range(6)]
+        self.frames = [[0 for j in range(5)] for i in range(6)]
+        self.labels = [[0 for j in range(5)] for i in range(6)]
+        self.bind("<Key>", self.key_pressed)
+        self.makewidgets()
             
     def makewidgets(self):
         padding = {'padx' : 2, 'pady' : 2}
-        textWidth = 2
+        textWidth = 4
         textHeight = 2
         textFont = ("Microsoft Sans Serif", 23, "bold")
 
@@ -20,15 +24,25 @@ class App(Tk):
         main_frame.pack(anchor='center', padx=10, pady=10)
         main_frame.configure(background="#121213")
 
-        labels = [[0 for j in range(5)] for i in range(6)]
+        for i in range(len(self.frames)):
+            for j in range(len(self.frames[i])):
+                self.frames[i][j] = LabelFrame(main_frame, height=62, width=62, borderwidth=0)
+                self.frames[i][j].pack_propagate(0)
+                self.frames[i][j].grid(row=i, column=j, **padding)
+                self.labels[i][j] = Label(self.frames[i][j], text=f"{self.characters[i][j]}", font=textFont, background='#3A3A3C', foreground='#FFFFFF', borderwidth=0, width=textWidth, height=textHeight)
+                self.labels[i][j].pack(fill=BOTH, expand=1)
 
-        for i in range(len(labels)):
-            for j in range(len(labels[i])):
-                labels[i][j] = Frame(main_frame, height=62, width=62)
-                labels[i][j].pack_propagate(0)
-                labels[i][j].grid(row=i, column=j, **padding)
-                Label(labels[i][j], text=f"{i + j}", font=textFont, background='#3A3A3C', foreground='#FFFFFF', borderwidth=0, width=4, height=2).pack(fill=BOTH, expand=1)
+    def key_pressed(self, event):
+        pressed_key = event.char
+        self.characters[0][0] = pressed_key.upper()
+        self.update_chars()
 
+    def update_chars(self):
+        for i in range(len(self.frames)):
+            for j in range(len(self.frames[i])):
+                self.labels[i][j].config(text=f"{self.characters[i][j]}")
+
+    
     def wordle(self, guess):
         with open('sgb-words.txt', 'r') as words:
             wordlist = words.read().splitlines()
