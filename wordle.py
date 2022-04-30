@@ -19,8 +19,6 @@ class App(Tk):
             self.wordlist = words.read().splitlines()
             self.active_word = self.wordlist[randint(0, 1500)]
 
-        print(self.active_word)
-
         self.bind("<Key>", self.key_pressed)
         self.makewidgets()
             
