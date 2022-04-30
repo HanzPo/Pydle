@@ -34,29 +34,34 @@ class App(Tk):
                 self.labels[i][j].pack(fill=BOTH, expand=1)
 
     def key_pressed(self, event):
-        allowed_keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-        pressed_key = event.char
-        if (self.character_number < 5 and pressed_key.upper() in allowed_keys):
-            self.characters[self.guess_number][self.character_number] = pressed_key.upper()
-            self.character_number += 1
-        elif (event.keysym == 'BackSpace' and self.character_number > 0):
-            self.character_number -= 1
-            self.characters[self.guess_number][self.character_number] = " "
-        elif (self.character_number == 5 and event.keysym == 'Return'):
-            self.guess_number += 1
-            self.character_number = 0
-        self.update_chars()
+        with open('sgb-words.txt', 'r') as words:
+            wordlist = words.read().splitlines()
+            active_word = wordlist[randint(0, 1500)]
+            allowed_keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+            pressed_key = event.char
+            if (self.character_number < 5 and pressed_key.upper() in allowed_keys):
+                self.characters[self.guess_number][self.character_number] = pressed_key.upper()
+                self.character_number += 1
+            elif (event.keysym == 'BackSpace' and self.character_number > 0):
+                self.character_number -= 1
+                self.characters[self.guess_number][self.character_number] = " "
+            elif (self.character_number == 5 and event.keysym == 'Return'):
+                current_word = ''.join(self.characters[self.guess_number]).lower()
+                if (current_word in wordlist):
+                    self.guess_number += 1
+                    self.character_number = 0
+                else:
+                    self.open_popup(current_word)
+            self.update_chars()
 
     def update_chars(self):
         for i in range(len(self.frames)):
             for j in range(len(self.frames[i])):
                 self.labels[i][j].config(text=f"{self.characters[i][j]}")
 
-    
-    def wordle(self, guess):
-        with open('sgb-words.txt', 'r') as words:
-            wordlist = words.read().splitlines()
-            active_word = wordlist[randint(0, 1500)]
+    def open_popup(self, invalid_word):
+        top= Toplevel(self)
+        Label(top, text= f"{invalid_word} is not a word!").pack()
 
 
 
