@@ -8,6 +8,7 @@ class App(Tk):
         self.resizable(width=False, height=False)
         self.configure(background="#121213")
         self.guess_number = 0
+        self.character_number = 0
         self.characters = [[' ' for j in range(5)] for i in range(6)]
         self.frames = [[0 for j in range(5)] for i in range(6)]
         self.labels = [[0 for j in range(5)] for i in range(6)]
@@ -34,7 +35,12 @@ class App(Tk):
 
     def key_pressed(self, event):
         pressed_key = event.char
-        self.characters[0][0] = pressed_key.upper()
+        if (self.character_number < 5):
+            self.characters[self.guess_number][self.character_number] = pressed_key.upper()
+            self.character_number += 1
+        elif (self.character_number == 5 and event.keysym == 'Return'):
+            self.guess_number += 1
+            self.character_number = 0
         self.update_chars()
 
     def update_chars(self):
