@@ -9,9 +9,11 @@ class App(Tk):
         self.configure(background="#121213")
         self.guess_number = 0
         self.character_number = 0
-        self.characters = [[' ' for j in range(5)] for i in range(6)]
-        self.frames = [[0 for j in range(5)] for i in range(6)]
-        self.labels = [[0 for j in range(5)] for i in range(6)]
+        self.width = 5
+        self.height = 6
+        self.characters = [[' ' for j in range(self.width)] for i in range(self.height)]
+        self.frames = [[0 for j in range(self.width)] for i in range(self.height)]
+        self.labels = [[0 for j in range(self.width)] for i in range(self.height)]
 
         with open('sgb-words.txt', 'r') as words:
             self.wordlist = words.read().splitlines()
