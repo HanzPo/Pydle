@@ -9,6 +9,7 @@
 - Missing keyboard graphic
 - Various other UI elements missing
 - Not a word dialog appears in odd places
+- Font is bold but not that bold
 
 ## Sources:
 
