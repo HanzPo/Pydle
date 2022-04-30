@@ -12,6 +12,11 @@ class App(Tk):
         self.characters = [[' ' for j in range(5)] for i in range(6)]
         self.frames = [[0 for j in range(5)] for i in range(6)]
         self.labels = [[0 for j in range(5)] for i in range(6)]
+
+        with open('sgb-words.txt', 'r') as words:
+            self.wordlist = words.read().splitlines()
+            self.active_word = 'self.wordlist[randint(0, 1500)]'
+
         self.bind("<Key>", self.key_pressed)
         self.makewidgets()
             
@@ -34,31 +39,28 @@ class App(Tk):
                 self.labels[i][j].pack(fill=BOTH, expand=1)
 
     def key_pressed(self, event):
-        with open('sgb-words.txt', 'r') as words:
-            wordlist = words.read().splitlines()
-            active_word = wordlist[randint(0, 1500)]
-            allowed_keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-            pressed_key = event.char
-            if (self.character_number < 5 and pressed_key.upper() in allowed_keys):
-                self.characters[self.guess_number][self.character_number] = pressed_key.upper()
-                self.character_number += 1
-            elif (event.keysym == 'BackSpace' and self.character_number > 0):
-                self.character_number -= 1
-                self.characters[self.guess_number][self.character_number] = " "
-            elif (self.character_number == 5 and event.keysym == 'Return'):
-                current_word = ''.join(self.characters[self.guess_number]).lower()
-                if (current_word in wordlist):
-                    for i in range(len(current_word)):
-                        if current_word[i] == active_word[i]:
-                            self.labels[self.guess_number][i].config(background='#538d4e')
-                        elif (current_word[i] in active_word):
-                            self.labels[self.guess_number][i].config(background='#b59f3b')
+        allowed_keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+        pressed_key = event.char
+        if (self.character_number < 5 and pressed_key.upper() in allowed_keys):
+            self.characters[self.guess_number][self.character_number] = pressed_key.upper()
+            self.character_number += 1
+        elif (event.keysym == 'BackSpace' and self.character_number > 0):
+            self.character_number -= 1
+            self.characters[self.guess_number][self.character_number] = " "
+        elif (self.character_number == 5 and event.keysym == 'Return'):
+            current_word = ''.join(self.characters[self.guess_number]).lower()
+            if (current_word in self.wordlist):
+                for i in range(len(current_word)):
+                    if current_word[i] == self.active_word[i]:
+                        self.labels[self.guess_number][i].config(background='#538d4e')
+                    elif (current_word[i] in self.active_word):
+                        self.labels[self.guess_number][i].config(background='#b59f3b')
 
-                    self.guess_number += 1
-                    self.character_number = 0
-                else:
-                    self.open_popup(current_word)
-            self.update_chars()
+                self.guess_number += 1
+                self.character_number = 0
+            else:
+                self.open_popup(current_word)
+        self.update_chars()
 
     def update_chars(self):
         for i in range(len(self.frames)):
