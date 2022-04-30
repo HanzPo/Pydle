@@ -7,6 +7,7 @@ class App(Tk):
         self.title("Wordle")
         self.configure(background="#121213")
         self.makewidgets()
+        self.resizable(width=False, height=False)
         
             
     def makewidgets(self):
@@ -16,7 +17,7 @@ class App(Tk):
         textFont = ("Microsoft Sans Serif", 23, "bold")
 
         main_frame = Frame()
-        main_frame.pack(anchor='center', padx=5, pady=5)
+        main_frame.pack(anchor='center', padx=10, pady=10)
         main_frame.configure(background="#121213")
 
         labels = [[0 for j in range(5)] for i in range(6)]
