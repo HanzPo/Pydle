@@ -34,10 +34,14 @@ class App(Tk):
                 self.labels[i][j].pack(fill=BOTH, expand=1)
 
     def key_pressed(self, event):
+        allowed_keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
         pressed_key = event.char
-        if (self.character_number < 5):
+        if (self.character_number < 5 and pressed_key.upper() in allowed_keys):
             self.characters[self.guess_number][self.character_number] = pressed_key.upper()
             self.character_number += 1
+        elif (event.keysym == 'BackSpace' and self.character_number > 0):
+            self.character_number -= 1
+            self.characters[self.guess_number][self.character_number] = " "
         elif (self.character_number == 5 and event.keysym == 'Return'):
             self.guess_number += 1
             self.character_number = 0
