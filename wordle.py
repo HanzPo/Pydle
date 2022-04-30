@@ -15,7 +15,7 @@ class App(Tk):
 
         with open('sgb-words.txt', 'r') as words:
             self.wordlist = words.read().splitlines()
-            self.active_word = 'self.wordlist[randint(0, 1500)]'
+            self.active_word = self.wordlist[randint(0, 1500)]
 
         self.bind("<Key>", self.key_pressed)
         self.makewidgets()
