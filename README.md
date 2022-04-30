@@ -9,3 +9,7 @@
 - Missing keyboard graphic
 - Various other UI elements missing
 - Not a word dialog appears in odd places
+
+## Sources:
+
+Dictionary of 5 letter words: https://www-cs-faculty.stanford.edu/~knuth/sgb.html
