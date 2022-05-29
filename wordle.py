@@ -52,17 +52,42 @@ class App(Tk):
         elif (self.character_number == 5 and event.keysym == 'Return'):
             current_word = ''.join(self.characters[self.guess_number]).lower()
             if (current_word in self.wordlist):
+                char_dict = {}
                 for i in range(len(current_word)):
-                    if current_word[i] == self.active_word[i]:
+                    letter = current_word[i]
+                    
+                    if letter == self.active_word[i]:
                         self.labels[self.guess_number][i].config(background='#538d4e')
-                    elif (current_word[i] in self.active_word):
-                        self.labels[self.guess_number][i].config(background='#b59f3b')
+                    elif letter in self.active_word:
+                        if letter not in char_dict:
+                            char_dict.update({letter : self.allowed_yellow_chars(current_word, letter)})
+                        if char_dict.get(letter) > 0:
+                            self.labels[self.guess_number][i].config(background='#b59f3b')
+                            char_dict.update({letter : char_dict.get(letter) - 1})
 
                 self.guess_number += 1
                 self.character_number = 0
             else:
                 self.open_popup(current_word)
         self.update_chars()
+ 
+
+    def allowed_yellow_chars(self, word, char):
+        return self.count_chars(char) - self.count_green_chars(word, char)
+
+    def count_chars(self, char):
+        char_counter = 0
+        for i in range(5):
+            if self.active_word[i] == char:
+                char_counter += 1
+        return char_counter
+
+    def count_green_chars(self, word, char):
+        char_counter = 0
+        for i in range(5):
+            if self.active_word[i] == word[i] and word[i] == char:
+                char_counter += 1
+        return char_counter
 
     def update_chars(self):
         for i in range(len(self.frames)):
