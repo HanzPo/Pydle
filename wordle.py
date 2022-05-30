@@ -67,6 +67,8 @@ class App(Tk):
 
                 self.guess_number += 1
                 self.character_number = 0
+                if self.guess_number > 5:
+                    print(self.active_word)
             else:
                 self.open_popup(current_word)
         self.update_chars()
