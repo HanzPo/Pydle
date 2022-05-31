@@ -37,7 +37,7 @@ class App(Tk):
                 self.frames[i][j] = LabelFrame(main_frame, height=62, width=62, borderwidth=0)
                 self.frames[i][j].pack_propagate(0)
                 self.frames[i][j].grid(row=i, column=j, **padding)
-                self.labels[i][j] = Label(self.frames[i][j], text=f"{self.characters[i][j]}", font=textFont, background='#3A3A3C', foreground='#FFFFFF', borderwidth=0, width=textWidth, height=textHeight)
+                self.labels[i][j] = Label(self.frames[i][j], text=f"{self.characters[i][j]}", font=textFont, background='#0A0A0A', foreground='#FFFFFF', borderwidth=0, width=textWidth, height=textHeight)
                 self.labels[i][j].pack(fill=BOTH, expand=1)
 
     def key_pressed(self, event):
@@ -55,7 +55,7 @@ class App(Tk):
                 char_dict = {}
                 for i in range(len(current_word)):
                     letter = current_word[i]
-                    
+                    self.labels[self.guess_number][i].config(background='#464646')
                     if letter == self.active_word[i]:
                         self.labels[self.guess_number][i].config(background='#538d4e')
                     elif letter in self.active_word:
