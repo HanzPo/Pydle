@@ -68,7 +68,7 @@ class App(Tk):
                 self.guess_number += 1
                 self.character_number = 0
                 if self.guess_number > 5:
-                    print(self.active_word)
+                    self.reveal_word()
             else:
                 self.open_popup(current_word)
         self.update_chars()
@@ -102,6 +102,11 @@ class App(Tk):
         popup.attributes('-toolwindow', True)
         Label(popup, text= f"{invalid_word} is not in the wordlist", font=textFont, background="#121213", foreground='#FFFFFF').pack(padx=5, pady=5)
 
+    def reveal_word(self):
+        textFont = ("Microsoft Sans Serif", 16)
+        popup = Toplevel(self, background="#121213")
+        popup.attributes('-toolwindow', True)
+        Label(popup, text= f"The correct word was {self.active_word}", font=textFont, background="#121213", foreground='#FFFFFF').pack(padx=5, pady=5)
 
 
 
