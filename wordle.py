@@ -14,6 +14,7 @@ class App(Tk):
         self.characters = [[' ' for j in range(self.width)] for i in range(self.height)]
         self.frames = [[0 for j in range(self.width)] for i in range(self.height)]
         self.labels = [[0 for j in range(self.width)] for i in range(self.height)]
+        self.game_won = False
 
         with open('sgb-words.txt', 'r') as words:
             self.wordlist = words.read().splitlines()
@@ -51,6 +52,8 @@ class App(Tk):
             self.characters[self.guess_number][self.character_number] = " "
         elif (self.character_number == 5 and event.keysym == 'Return'):
             current_word = ''.join(self.characters[self.guess_number]).lower()
+            if current_word == self.active_word:
+                self.game_won = True
             if (current_word in self.wordlist):
                 char_dict = {}
                 for i in range(len(current_word)):
@@ -67,7 +70,7 @@ class App(Tk):
 
                 self.guess_number += 1
                 self.character_number = 0
-                if self.guess_number > 5:
+                if self.guess_number > 5 and not self.game_won:
                     self.reveal_word()
             else:
                 self.open_popup(current_word)
