@@ -14,6 +14,7 @@ class App(Tk):
         self.characters = [[' ' for j in range(self.width)] for i in range(self.height)]
         self.frames = [[0 for j in range(self.width)] for i in range(self.height)]
         self.labels = [[0 for j in range(self.width)] for i in range(self.height)]
+        self.game_won = False
 
         with open('sgb-words.txt', 'r') as words:
             self.wordlist = words.read().splitlines()
@@ -41,6 +42,8 @@ class App(Tk):
                 self.labels[i][j].pack(fill=BOTH, expand=1)
 
     def key_pressed(self, event):
+        if self.game_won:
+            return
         allowed_keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
         pressed_key = event.char
         if (self.character_number < 5 and pressed_key.upper() in allowed_keys):
@@ -51,6 +54,8 @@ class App(Tk):
             self.characters[self.guess_number][self.character_number] = " "
         elif (self.character_number == 5 and event.keysym == 'Return'):
             current_word = ''.join(self.characters[self.guess_number]).lower()
+            if current_word == self.active_word:
+                self.game_won = True
             if (current_word in self.wordlist):
                 char_dict = {}
                 for i in range(len(current_word)):
@@ -67,8 +72,8 @@ class App(Tk):
 
                 self.guess_number += 1
                 self.character_number = 0
-                if self.guess_number > 5:
-                    print(self.active_word)
+                if self.guess_number > 5 and not self.game_won:
+                    self.reveal_word()
             else:
                 self.open_popup(current_word)
         self.update_chars()
@@ -102,6 +107,11 @@ class App(Tk):
         popup.attributes('-toolwindow', True)
         Label(popup, text= f"{invalid_word} is not in the wordlist", font=textFont, background="#121213", foreground='#FFFFFF').pack(padx=5, pady=5)
 
+    def reveal_word(self):
+        textFont = ("Microsoft Sans Serif", 16)
+        popup = Toplevel(self, background="#121213")
+        popup.attributes('-toolwindow', True)
+        Label(popup, text= f"The correct word was {self.active_word}", font=textFont, background="#121213", foreground='#FFFFFF').pack(padx=5, pady=5)
 
 
 
