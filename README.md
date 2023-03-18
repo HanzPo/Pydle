@@ -1,5 +1,5 @@
-# Wordle Clone
- A clone of wordle written in Python
+# Pydle
+ A clone of wordle written in Python using the Tkinter library
 
 ![](https://i.imgur.com/QD6AfML.png)
 
